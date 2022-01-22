@@ -375,19 +375,26 @@ int open_port(const char *name)
 	int r;
 
 	portfd = open(name, O_RDWR | O_NONBLOCK);
-	if (portfd < 0) return 0;
+	if (portfd < 0) {
+		printf("open() failed: 0x%2X\n", portfd);
+		return 0;
+	}
 	r = tcgetattr(portfd, &termsettings);
 	if (r < 0) {
 		close_port();
+		printf("tcgetattr() failed: 0x%2X\n", r);
 		return 0;
 	}
 	cfmakeraw(&termsettings);
-	cfsetspeed(&termsettings, B115200);
+	cfsetspeed(&termsettings, B57600);
+
 	r = tcsetattr(portfd, TCSANOW, &termsettings);
 	if (r < 0) {
 		close_port();
+		printf("tcsetattr() failed: 0x%2X\n", r);
 		return 0;
 	}
+	printf("opened Serial Interface %s\n", name);
 	return 1;
 }
 
@@ -403,9 +410,11 @@ int read_serial_data(void)
 		if (n > 0 && n <= sizeof(buf)) {
 			newdata(buf, n);
 			nodata_count = 0;
+			// printf("received %u Bytes\n", n);
 			return n;
 		} else if (n == 0) {
 			if (++nodata_count > 6) {
+				printf("no data\n");
 				close_port();
 				nodata_count = 0;
 				close_port();

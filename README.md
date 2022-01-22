@@ -1,6 +1,10 @@
 # MotionCal
 
-This is a fork of [PaulStoffregen's MotionCal](https://github.com/PaulStoffregen/MotionCal) with fixes to compile on ubuntu 20.04.
+This is a fork of [PaulStoffregen's MotionCal](https://github.com/PaulStoffregen/MotionCal) with fixes to compile on Ubuntu 20.04. 
+
+## :warning: Important Note
+
+For stability reasons, the baudrate was set to 57600. Make sure the sensor-board uses the same speed.
 
 ## Prerequisites
 
@@ -56,3 +60,11 @@ run the application:
 ```
 ./MotionCal
 ```
+
+![Screenshot](docs/motioncal.png)
+
+
+## References
+
+- [wxWiki - Installing and configuring under Ubuntu](https://wiki.wxwidgets.org/Installing_and_configuring_under_Ubuntu)
+- [Compilation problems on ubuntu 18](https://github.com/PaulStoffregen/MotionCal/issues/10)
